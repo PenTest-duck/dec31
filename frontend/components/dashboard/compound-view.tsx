@@ -41,96 +41,66 @@ export function CompoundView({ days }: CompoundViewProps) {
   const bestProjection = currentScore * Math.pow(1.01, remainingDays);
   const worstProjection = currentScore * Math.pow(0.99, remainingDays);
 
-  // Generate projection data points
-  const projectionData: {
-    date: string;
-    best: number;
-    worst: number;
-    actual?: number;
-  }[] = [];
-
-  if (historicalData.length > 0) {
-    let bestScore = currentScore;
-    let worstScore = currentScore;
-    let i = 0;
-
-    for (const day of days) {
-      if (!day.isPast && !day.isToday) {
-        bestScore *= 1.01;
-        worstScore *= 0.99;
-
-        if (i % 30 === 0 || i === remainingDays - 1) {
-          projectionData.push({
-            date: day.date,
-            best: Math.round(bestScore * 10) / 10,
-            worst: Math.round(worstScore * 10) / 10,
-          });
-        }
-        i++;
-      }
-    }
-  }
-
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-1">
-          Current Compound Score
+    <div className="h-full flex flex-col gap-4">
+      <div className="text-center shrink-0">
+        <p className="text-[10px] text-zinc-500 uppercase tracking-wide mb-1">
+          Compound Score
         </p>
-        <p className="text-5xl font-bold tracking-tight text-black dark:text-white">
+        <p className="text-4xl font-bold tracking-tight text-white">
           {currentScore.toFixed(1)}
-        </p>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">
-          Started at 100 · 1% per day
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 text-center">
-        <div className="p-4 rounded-lg bg-green-50 dark:bg-green-950/30">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">
-            If all remaining days are green
-          </p>
-          <p className="text-2xl font-semibold text-green-600 dark:text-green-400">
+      <div className="grid grid-cols-2 gap-2 text-center shrink-0">
+        <div className="px-3 py-2 border border-green-900/50 bg-green-950/20">
+          <p className="text-[10px] text-zinc-500 mb-0.5">Best case</p>
+          <p className="text-lg font-semibold text-green-400">
             {bestProjection.toFixed(1)}
           </p>
         </div>
-        <div className="p-4 rounded-lg bg-red-50 dark:bg-red-950/30">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">
-            If all remaining days are red
-          </p>
-          <p className="text-2xl font-semibold text-red-600 dark:text-red-400">
+        <div className="px-3 py-2 border border-red-900/50 bg-red-950/20">
+          <p className="text-[10px] text-zinc-500 mb-0.5">Worst case</p>
+          <p className="text-lg font-semibold text-red-400">
             {worstProjection.toFixed(1)}
           </p>
         </div>
       </div>
 
       {historicalData.length > 0 && (
-        <div className="h-48 w-full">
+        <div className="flex-1 min-h-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={historicalData}
-              margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
             >
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 10 }}
+                tick={{ fontSize: 9, fill: "#71717a" }}
                 tickFormatter={(value) => {
                   const date = new Date(value);
                   return date.toLocaleDateString("en-US", { month: "short" });
                 }}
                 interval="preserveStartEnd"
+                axisLine={{ stroke: "#27272a" }}
+                tickLine={{ stroke: "#27272a" }}
               />
-              <YAxis tick={{ fontSize: 10 }} domain={["auto", "auto"]} />
+              <YAxis
+                tick={{ fontSize: 9, fill: "#71717a" }}
+                domain={["auto", "auto"]}
+                axisLine={{ stroke: "#27272a" }}
+                tickLine={{ stroke: "#27272a" }}
+              />
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2 shadow-lg">
-                        <p className="text-xs text-zinc-500">
+                      <div className="bg-zinc-900 border border-zinc-800 p-2">
+                        <p className="text-[10px] text-zinc-500">
                           {new Date(data.date).toLocaleDateString()}
                         </p>
-                        <p className="text-sm font-medium">
+                        <p className="text-xs font-medium text-white">
                           Score: {data.value}
                         </p>
                       </div>
@@ -139,12 +109,12 @@ export function CompoundView({ days }: CompoundViewProps) {
                   return null;
                 }}
               />
-              <ReferenceLine y={100} stroke="#9ca3af" strokeDasharray="3 3" />
+              <ReferenceLine y={100} stroke="#3f3f46" strokeDasharray="3 3" />
               <Line
                 type="monotone"
                 dataKey="value"
-                stroke="#000"
-                strokeWidth={2}
+                stroke="#fff"
+                strokeWidth={1.5}
                 dot={false}
               />
             </LineChart>

@@ -14,15 +14,16 @@ interface DaysViewProps {
 }
 
 export function DaysView({ days, onDayClick }: DaysViewProps) {
-  // Group days by month for display
-  const monthGroups: { month: string; days: DayData[] }[] = [];
+  // Group days by year-month for display
+  const monthGroups: { month: string; year: string; days: DayData[] }[] = [];
   let currentMonth = "";
 
   for (const day of days) {
     const monthKey = day.date.substring(0, 7);
     if (monthKey !== currentMonth) {
       currentMonth = monthKey;
-      monthGroups.push({ month: monthKey, days: [] });
+      const [year, month] = monthKey.split("-");
+      monthGroups.push({ month, year, days: [] });
     }
     monthGroups[monthGroups.length - 1].days.push(day);
   }
@@ -39,33 +40,29 @@ export function DaysView({ days, onDayClick }: DaysViewProps) {
   };
 
   return (
-    <TooltipProvider>
-      <div className="space-y-6">
+    <TooltipProvider delayDuration={100}>
+      <div className="h-full w-full grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 auto-rows-fr">
         {monthGroups.map((group) => (
-          <div key={group.month} className="space-y-2">
-            <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-              {getMonthName(group.month)} {group.month.split("-")[0]}
+          <div key={`${group.year}-${group.month}`} className="space-y-1">
+            <h3 className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide">
+              {getMonthName(`${group.year}-${group.month}`)} {group.year.slice(2)}
             </h3>
-            <div className="flex flex-wrap gap-1">
+            <div className="grid grid-cols-7 gap-0.5">
               {group.days.map((day) => (
                 <Tooltip key={day.date}>
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => canVote(day) && onDayClick(day.date)}
                       disabled={!canVote(day)}
-                      className={`w-4 h-4 rounded-sm transition-all ${
-                        canVote(day)
-                          ? "cursor-pointer hover:scale-125 hover:ring-2 hover:ring-offset-1 hover:ring-black dark:hover:ring-white"
-                          : "cursor-default"
-                      } ${day.isToday ? "ring-2 ring-black dark:ring-white" : ""}`}
+                      className={`w-full aspect-square transition-all ${
+                        canVote(day) ? "cursor-pointer hover:opacity-70" : "cursor-default"
+                      } ${day.isToday ? "ring-1 ring-white" : ""}`}
                       style={{ backgroundColor: getColor(day) }}
                     />
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{formatDate(day.date)}</p>
-                    {day.vote && (
-                      <p className="text-xs opacity-75 capitalize">{day.vote}</p>
-                    )}
+                  <TooltipContent className="bg-zinc-900 border-zinc-800 text-xs">
+                    <p className="text-white">{formatDate(day.date)}</p>
+                    {day.vote && <p className="text-zinc-400 capitalize">{day.vote}</p>}
                   </TooltipContent>
                 </Tooltip>
               ))}

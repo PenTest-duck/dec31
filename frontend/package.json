@@ -20,6 +20,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.89.0",
     "ai": "^6.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -28,6 +29,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "recharts": "2.15.4",
+    "resend": "^6.6.0",
     "supabase": "^2.70.5",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.2.1"

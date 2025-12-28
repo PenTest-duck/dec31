@@ -27,32 +27,32 @@ export function Header({ name }: HeaderProps) {
   };
 
   return (
-    <header className="border-b border-zinc-200 dark:border-zinc-800">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/dashboard" className="text-xl font-semibold text-black dark:text-white">
+    <header className="border-b border-zinc-800 shrink-0">
+      <div className="px-4 h-12 flex items-center justify-between">
+        <Link href="/dashboard" className="text-lg font-semibold text-white tracking-tight">
           dec31
         </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-9 gap-2">
-              <User className="h-4 w-4" />
+            <Button variant="ghost" className="h-8 gap-2 text-sm text-zinc-400 hover:text-white">
+              <User className="h-3.5 w-3.5" />
               <span>{name}</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem asChild>
+          <DropdownMenuContent align="end" className="w-44 bg-zinc-900 border-zinc-800">
+            <DropdownMenuItem asChild className="text-sm">
               <Link href="/settings" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
+                <Settings className="h-3.5 w-3.5" />
                 Settings
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="bg-zinc-800" />
             <DropdownMenuItem
               onClick={handleSignOut}
-              className="flex items-center gap-2 text-red-600 dark:text-red-400"
+              className="flex items-center gap-2 text-red-400 text-sm"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-3.5 w-3.5" />
               Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>

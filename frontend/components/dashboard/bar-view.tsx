@@ -18,8 +18,8 @@ export function BarView({ days }: BarViewProps) {
   ].filter((s) => s.value > 0);
 
   return (
-    <div className="space-y-4">
-      <div className="h-8 rounded-full overflow-hidden flex">
+    <div className="h-full flex flex-col justify-center gap-4">
+      <div className="h-12 flex">
         {segments.map((segment, i) => (
           <div
             key={i}
@@ -32,14 +32,14 @@ export function BarView({ days }: BarViewProps) {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-4 justify-center text-sm">
+      <div className="flex flex-wrap gap-4 justify-center text-xs">
         {segments.map((segment, i) => (
-          <div key={i} className="flex items-center gap-2">
+          <div key={i} className="flex items-center gap-1.5">
             <div
-              className="w-3 h-3 rounded-full"
+              className="w-2 h-2"
               style={{ backgroundColor: segment.color }}
             />
-            <span className="text-zinc-600 dark:text-zinc-400">
+            <span className="text-zinc-400">
               {segment.label}: {segment.value}
             </span>
           </div>

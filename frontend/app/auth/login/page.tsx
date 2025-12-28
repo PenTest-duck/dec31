@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const supabase = createClient();
@@ -16,23 +15,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white dark:bg-black">
-      <div className="w-full max-w-sm space-y-8 px-4">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-white">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black">
+      <div className="w-full max-w-xs space-y-6 px-4">
+        <div className="space-y-1 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight text-white">
             dec31
           </h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-xs text-zinc-500">
             Design the person, not the plan.
           </p>
         </div>
 
-        <Button
+        <button
           onClick={handleGoogleLogin}
-          variant="outline"
-          className="w-full h-12 text-base font-medium"
+          className="w-full h-10 text-sm font-medium border border-zinc-800 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
         >
-          <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+          <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
               fill="currentColor"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -51,9 +49,9 @@ export default function LoginPage() {
             />
           </svg>
           Continue with Google
-        </Button>
+        </button>
 
-        <p className="text-center text-xs text-zinc-500 dark:text-zinc-500">
+        <p className="text-center text-[10px] text-zinc-600">
           By continuing, you agree to become the person you envision.
         </p>
       </div>

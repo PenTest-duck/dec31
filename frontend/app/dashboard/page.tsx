@@ -136,55 +136,54 @@ export default function DashboardPage() {
 
   if (isLoading || !profile) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white dark:bg-black">
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-zinc-300 border-t-black dark:border-zinc-700 dark:border-t-white" />
+      <div className="flex h-screen items-center justify-center bg-black">
+        <div className="h-4 w-4 animate-spin border border-zinc-700 border-t-white" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="h-screen flex flex-col bg-black overflow-hidden">
       <Header name={profile.name} />
 
-      <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <main className="flex-1 flex flex-col min-h-0 px-4 py-3">
         <IdentityDisplay
           identity={profile.identity_statement}
           onUpdate={handleIdentityUpdate}
         />
 
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="days">Days</TabsTrigger>
-            <TabsTrigger value="months">Months</TabsTrigger>
-            <TabsTrigger value="bar">Bar</TabsTrigger>
-            <TabsTrigger value="graph">Graph</TabsTrigger>
-            <TabsTrigger value="compound">Score</TabsTrigger>
+        <Tabs defaultValue="days" className="flex-1 flex flex-col min-h-0 mt-3">
+          <TabsList className="grid w-full grid-cols-5 h-8 bg-zinc-900/50">
+            <TabsTrigger value="days" className="text-xs h-7">Days</TabsTrigger>
+            <TabsTrigger value="months" className="text-xs h-7">Months</TabsTrigger>
+            <TabsTrigger value="bar" className="text-xs h-7">Bar</TabsTrigger>
+            <TabsTrigger value="graph" className="text-xs h-7">Graph</TabsTrigger>
+            <TabsTrigger value="overview" className="text-xs h-7">All</TabsTrigger>
           </TabsList>
 
-          <div className="mt-6">
-            <TabsContent value="overview">
-              <OverviewView days={days} onDayClick={setSelectedDate} />
-            </TabsContent>
-
-            <TabsContent value="days">
+          <div className="flex-1 min-h-0 mt-3 overflow-auto">
+            <TabsContent value="days" className="mt-0 h-full">
               <DaysView days={days} onDayClick={setSelectedDate} />
             </TabsContent>
 
-            <TabsContent value="months">
+            <TabsContent value="months" className="mt-0 h-full">
               <MonthsView days={days} />
             </TabsContent>
 
-            <TabsContent value="bar">
+            <TabsContent value="bar" className="mt-0 h-full">
               <BarView days={days} />
             </TabsContent>
 
-            <TabsContent value="graph">
+            {/* <TabsContent value="graph" className="mt-0 h-full">
               <GraphView days={days} />
+            </TabsContent> */}
+
+            <TabsContent value="graph" className="mt-0 h-full">
+              <CompoundView days={days} />
             </TabsContent>
 
-            <TabsContent value="compound">
-              <CompoundView days={days} />
+            <TabsContent value="overview" className="mt-0 h-full">
+              <OverviewView days={days} onDayClick={setSelectedDate} />
             </TabsContent>
           </div>
         </Tabs>
