@@ -1,87 +1,87 @@
 # dec31 — Build Plan
 
-## Phase 0: Foundation
+## Phase 0: Foundation ✅
 
 ### 0.1 Database Schema
-- [ ] Create `users` table (id, email, name, identity_statement, timezone, notification_time, onboarding_completed, created_at). Make the id be referencing the auth.users table in Supabase.
-- [ ] Create `votes` table (id, user_id, date, vote: 'closer' | 'further' | null, created_at)
-- [ ] Set up RLS policies (users can only access their own data)
-- [ ] Generate TypeScript types with `pnpm types`
+- [x] Create `users` table (id, email, name, identity_statement, timezone, notification_time, onboarding_completed, created_at). Make the id be referencing the auth.users table in Supabase.
+- [x] Create `votes` table (id, user_id, date, vote: 'closer' | 'further' | null, created_at)
+- [x] Set up RLS policies (users can only access their own data)
+- [x] Generate TypeScript types with `pnpm types`
 
 ### 0.2 Supabase Auth Setup
-- [ ] Configure Google OAuth provider in Supabase dashboard
-- [ ] Create `/api/callback` route handler for auth callback
-- [ ] Create Supabase client utilities (browser + server)
-- [ ] Set up auth middleware for protected routes
+- [ ] Configure Google OAuth provider in Supabase dashboard *(human task)*
+- [x] Create `/api/auth/callback` route handler for auth callback
+- [x] Create Supabase client utilities (browser + server)
+- [x] Set up auth middleware for protected routes
 
 ---
 
-## Phase 1: Landing Page (/)
+## Phase 1: Landing Page (/) ✅
 
 ### 1.1 Design & Copy
-- [ ] Hero section with core thesis: "Design the person, not the plan"
-- [ ] Brief manifesto highlights (identity > goals, systems > willpower, Dec 31 container)
-- [ ] CTA: "Begin your transformation"
-- [ ] Header with Login / Sign Up buttons
-- [ ] Footer (minimal)
+- [x] Hero section with core thesis: "Design the person, not the plan"
+- [x] Brief manifesto highlights (identity > goals, systems > willpower, Dec 31 container)
+- [x] CTA: "Begin your transformation"
+- [x] Header with Login / Sign Up buttons
+- [x] Footer (minimal)
 
 ### 1.2 Styling
 - [ ] Dark/light mode toggle
-- [ ] Minimalistic black/white aesthetic
-- [ ] Mobile responsive
-- [ ] Smooth animations (subtle)
+- [x] Minimalistic black/white aesthetic
+- [x] Mobile responsive
+- [x] Smooth animations (subtle)
 
 ---
 
-## Phase 2: Authentication (/auth/*)
+## Phase 2: Authentication (/auth/*) ✅
 
 ### 2.1 Auth Pages
-- [ ] `/auth/login` — Google OAuth button, minimal UI
-- [ ] `/auth/signup` — Same as login (Google OAuth handles both)
-- [ ] Redirect logic: new users → /onboarding, existing users → /dashboard
+- [x] `/auth/login` — Google OAuth button, minimal UI
+- [x] `/auth/signup` — Same as login (Google OAuth handles both)
+- [x] Redirect logic: new users → /onboarding, existing users → /dashboard
 
 ### 2.2 Auth Flow
-- [ ] `/api/callback` — Handle OAuth callback, insert user row if new
-- [ ] Protected route middleware
-- [ ] Sign out functionality
+- [x] `/api/auth/callback` — Handle OAuth callback, insert user row if new
+- [x] Protected route middleware
+- [x] Sign out functionality
 
 ---
 
-## Phase 3: Onboarding (/onboarding)
+## Phase 3: Onboarding (/onboarding) ✅
 
 ### 3.1 Flow Design
-- [ ] Step 0: "How should I call you?" — Pre-populate from Google name
-- [ ] Step 1: "Describe who you are on Dec 31, 2026." — Textarea, AI-assisted refinement optional
-- [ ] Progress indicator (minimal, e.g., "1 of 2")
-- [ ] Smooth transitions between steps
+- [x] Step 0: "How should I call you?" — Pre-populate from Google name
+- [x] Step 1: "Describe who you are on Dec 31, 2026." — Textarea, AI-assisted refinement optional
+- [x] Progress indicator (minimal, e.g., "1 of 2")
+- [x] Smooth transitions between steps
 
 ### 3.2 Data Persistence
-- [ ] Save name to `users.name`
-- [ ] Save identity statement to `users.identity_statement`
-- [ ] Mark `users.onboarding_completed = true`
-- [ ] Redirect to /dashboard on completion
+- [x] Save name to `users.name`
+- [x] Save identity statement to `users.identity_statement`
+- [x] Mark `users.onboarding_completed = true`
+- [x] Redirect to /dashboard on completion
 
 ---
 
-## Phase 4: Dashboard (/dashboard)
+## Phase 4: Dashboard (/dashboard) ✅
 
 ### 4.1 Layout
-- [ ] Header: Logo, settings icon, sign out
-- [ ] Identity statement display (editable with friction — e.g., confirm dialog)
-- [ ] View switcher tabs
+- [x] Header: Logo, settings icon, sign out
+- [x] Identity statement display (editable with friction — e.g., confirm dialog)
+- [x] View switcher tabs
 
 ### 4.2 Progress Views
-- [ ] **Days View**: Grid of day squares (green/red/orange/gray), hover for date, click orange to vote
-- [ ] **Months View**: 3x4 grid, each month shows proportional color segments
-- [ ] **Bar View**: Single horizontal segmented bar
-- [ ] **Graph View**: Line chart with green up-segments, red down-segments, orange flat
-- [ ] **Compound View**: Score starting at 100, 1.01^green × 0.99^red, show projections
-- [ ] **Overview**: All views on one screen
+- [x] **Days View**: Grid of day squares (green/red/orange/gray), hover for date, click orange to vote
+- [x] **Months View**: 3x4 grid, each month shows proportional color segments
+- [x] **Bar View**: Single horizontal segmented bar
+- [x] **Graph View**: Line chart with green up-segments, red down-segments, orange flat
+- [x] **Compound View**: Score starting at 100, 1.01^green × 0.99^red, show projections
+- [x] **Overview**: All views on one screen
 
 ### 4.3 Voting Modal
-- [ ] Click on orange (unfilled) day → modal with question: "Did you feel closer or further from your Dec 31 identity?"
-- [ ] Two buttons: "Closer" (green) / "Further" (red)
-- [ ] Update `votes` table, refresh view
+- [x] Click on orange (unfilled) day → modal with question: "Did you feel closer or further from your Dec 31 identity?"
+- [x] Two buttons: "Closer" (green) / "Further" (red)
+- [x] Update `votes` table, refresh view
 
 ---
 
@@ -97,9 +97,9 @@
 - [ ] Respect user's timezone and notification_time preference
 - [ ] Only send if user hasn't voted for today
 
-### 5.3 Settings Page (/settings)
-- [ ] Timezone selector (default: user's local)
-- [ ] Notification time picker (default: 9pm)
+### 5.3 Settings Page (/settings) ✅
+- [x] Timezone selector (default: user's local)
+- [x] Notification time picker (default: 9pm)
 - [ ] Email preferences
 
 ---
@@ -107,10 +107,10 @@
 ## Phase 6: Polish & Launch
 
 ### 6.1 UX Polish
-- [ ] Loading states
-- [ ] Error handling
+- [x] Loading states
+- [x] Error handling (auth error page)
 - [ ] Empty states
-- [ ] Animations & transitions
+- [x] Animations & transitions
 
 ### 6.2 Mobile Optimization
 - [ ] Responsive layouts for all views

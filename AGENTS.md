@@ -13,7 +13,7 @@ Read MANIFESTO.md for the full manifesto that should guide all product and engin
 Build a polished, elegant, minimalistic landing page to convey core elements of the Manifesto.
 Have CTA to sign up.
 Have log in / sign up buttons.
-The auth callback is at /api/callback. This needs to handle post-signup flows (e.g. inserting Supabase row).
+The auth callback is at /api/auth/callback. This needs to handle post-signup flows (e.g. inserting Supabase row).
 
 ### 0. Authentication (/auth/login, /auth/signup)
 

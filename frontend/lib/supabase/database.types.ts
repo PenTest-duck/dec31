@@ -14,7 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          identity_statement: string | null
+          name: string | null
+          notification_time: string | null
+          onboarding_completed: boolean | null
+          timezone: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id: string
+          identity_statement?: string | null
+          name?: string | null
+          notification_time?: string | null
+          onboarding_completed?: boolean | null
+          timezone?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          identity_statement?: string | null
+          name?: string | null
+          notification_time?: string | null
+          onboarding_completed?: boolean | null
+          timezone?: string | null
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          created_at: string | null
+          date: string
+          id: string
+          user_id: string
+          vote: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          id?: string
+          user_id: string
+          vote?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          user_id?: string
+          vote?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
