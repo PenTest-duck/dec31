@@ -40,7 +40,7 @@ export function BarView({ days }: BarViewProps) {
               style={{ backgroundColor: segment.color }}
             />
             <span className="text-zinc-400">
-              {segment.label}: {segment.value}
+              {segment.label}: {segment.value} ({((segment.value / total) * 100).toFixed(1)}%)
             </span>
           </div>
         ))}

@@ -185,7 +185,7 @@ function generateEmailHtml(name: string, closerUrl: string, furtherUrl: string):
       Hey ${name},<br><br>
       Did you feel closer or further from your Dec 31 identity today?
     </p>
-    <div class="buttons">
+    <div class="buttons" style="display: flex; justify-content: center; gap: 16px;">
       <a href="${closerUrl}" class="btn btn-closer">Closer</a>
       <a href="${furtherUrl}" class="btn btn-further">Further</a>
     </div>

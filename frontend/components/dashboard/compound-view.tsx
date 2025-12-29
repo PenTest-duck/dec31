@@ -10,6 +10,8 @@ import {
   Tooltip,
   ReferenceLine,
 } from "recharts";
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
 
 interface CompoundViewProps {
   days: DayData[];
@@ -17,10 +19,11 @@ interface CompoundViewProps {
 
 export function CompoundView({ days }: CompoundViewProps) {
   const currentScore = calculateCompoundScore(days);
+  const [showSP500, setShowSP500] = useState(false);
 
   // Calculate historical data
   let score = 100;
-  const historicalData: { date: string; value: number }[] = [];
+  const historicalData: { date: string; value: number; sp500?: number }[] = [];
 
   for (const day of days) {
     if (day.isPast || day.isToday) {
@@ -34,6 +37,15 @@ export function CompoundView({ days }: CompoundViewProps) {
         value: Math.round(score * 10) / 10,
       });
     }
+  }
+
+  // Add S&P 500 data to historical data
+  if (showSP500 && historicalData.length > 0) {
+    let sp500Score = 100;
+    historicalData.forEach((data) => {
+      sp500Score *= 1.00026116;
+      data.sp500 = Math.round(sp500Score * 10) / 10;
+    });
   }
 
   // Calculate projections
@@ -65,6 +77,16 @@ export function CompoundView({ days }: CompoundViewProps) {
             {worstProjection.toFixed(1)}
           </p>
         </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-2 shrink-0">
+        <Switch
+          checked={showSP500}
+          onCheckedChange={setShowSP500}
+        />
+        <label className="text-[10px] text-zinc-500 uppercase tracking-wide">
+          Show S&P 500
+        </label>
       </div>
 
       {historicalData.length > 0 && (
@@ -117,6 +139,16 @@ export function CompoundView({ days }: CompoundViewProps) {
                 strokeWidth={1.5}
                 dot={false}
               />
+              {showSP500 && (
+                <Line
+                  type="monotone"
+                  dataKey="sp500"
+                  stroke="#71717a"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 4"
+                  dot={false}
+                />
+              )}
             </LineChart>
           </ResponsiveContainer>
         </div>
