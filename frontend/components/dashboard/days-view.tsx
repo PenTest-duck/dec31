@@ -36,7 +36,7 @@ export function DaysView({ days, onDayClick }: DaysViewProps) {
   };
 
   const canVote = (day: DayData) => {
-    return (day.isPast || day.isToday) && !day.vote;
+    return day.isPast || day.isToday;
   };
 
   return (

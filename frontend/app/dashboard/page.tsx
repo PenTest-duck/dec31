@@ -11,7 +11,6 @@ import {
   DaysView,
   MonthsView,
   BarView,
-  GraphView,
   CompoundView,
   OverviewView,
 } from "@/components/dashboard";
@@ -117,6 +116,27 @@ export default function DashboardPage() {
     setSelectedDate(null);
   };
 
+  const handleClearVote = async (date: string) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    // Delete vote
+    await supabase.from("votes").delete().eq("user_id", user.id).eq("date", date);
+
+    // Update local state
+    const newVotes = new Map(votes);
+    newVotes.delete(date);
+    setVotes(newVotes);
+
+    const newDays = getDaysInRange(START_DATE, END_DATE, newVotes);
+    setDays(newDays);
+
+    setSelectedDate(null);
+  };
+
   const handleIdentityUpdate = async (newIdentity: string) => {
     const {
       data: { user },
@@ -191,7 +211,9 @@ export default function DashboardPage() {
 
       <VoteDialog
         date={selectedDate}
+        currentVote={selectedDate ? votes.get(selectedDate) : undefined}
         onVote={handleVote}
+        onClear={handleClearVote}
         onClose={() => setSelectedDate(null)}
       />
     </div>
