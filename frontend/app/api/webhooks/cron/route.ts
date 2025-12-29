@@ -54,9 +54,11 @@ export async function POST(request: NextRequest) {
         const userHour = userNow.getHours();
         const userMinute = userNow.getMinutes();
 
-        // Check if current time matches notification time (within 30-minute cron window)
+        // Check if current time matches notification time (within 15-minute window)
         const isNotificationTime =
-          userHour === notifHour && userMinute >= notifMinute && userMinute < notifMinute + 30;
+          userHour === notifHour &&
+          userMinute >= notifMinute - 15 &&
+          userMinute < notifMinute + 15;
 
         if (!isNotificationTime) {
           continue;
@@ -89,9 +91,9 @@ export async function POST(request: NextRequest) {
 
         // Send email
         const { error: emailError } = await resend.emails.send({
-          from: "dec31 <noreply@dec31.app>",
+          from: "Dec <dec@mail.dec31.me>",
           to: user.email,
-          subject: "Your daily dec31 check-in",
+          subject: "[dec31] Your daily vote",
           html: generateEmailHtml(user.name || "there", closerUrl, furtherUrl),
         });
 
