@@ -35,11 +35,14 @@ export async function GET(request: Request) {
           .single();
 
         if (!existingUser) {
-          // New user - create record and redirect to onboarding
+          // New user - create record with API key and redirect to onboarding
           const { error: insertError } = await supabase.from("users").insert({
             id: user.id,
             email: user.email!,
             name: user.user_metadata?.full_name?.split(" ")[0] || null,
+            api_key: Array.from(crypto.getRandomValues(new Uint8Array(32)))
+              .map(b => b.toString(16).padStart(2, '0'))
+              .join(''),
           });
 
           if (!insertError) {

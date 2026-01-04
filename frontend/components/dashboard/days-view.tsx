@@ -41,7 +41,7 @@ export function DaysView({ days, onDayClick }: DaysViewProps) {
 
   return (
     <TooltipProvider delayDuration={100}>
-      <div className="h-full w-full grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 auto-rows-fr">
+      <div className="h-full w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-4 auto-rows-fr">
         {monthGroups.map((group) => (
           <div key={`${group.year}-${group.month}`} className="space-y-1">
             <h3 className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide">

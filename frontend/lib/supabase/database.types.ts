@@ -16,32 +16,38 @@ export type Database = {
     Tables: {
       users: {
         Row: {
+          api_key: string | null
           created_at: string | null
           email: string
           id: string
           identity_statement: string | null
           name: string | null
           notification_time: string | null
+          notifications_enabled: boolean | null
           onboarding_completed: boolean | null
           timezone: string | null
         }
         Insert: {
+          api_key?: string | null
           created_at?: string | null
           email: string
           id: string
           identity_statement?: string | null
           name?: string | null
           notification_time?: string | null
+          notifications_enabled?: boolean | null
           onboarding_completed?: boolean | null
           timezone?: string | null
         }
         Update: {
+          api_key?: string | null
           created_at?: string | null
           email?: string
           id?: string
           identity_statement?: string | null
           name?: string | null
           notification_time?: string | null
+          notifications_enabled?: boolean | null
           onboarding_completed?: boolean | null
           timezone?: string | null
         }

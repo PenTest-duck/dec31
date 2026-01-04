@@ -25,8 +25,9 @@ export async function POST(request: NextRequest) {
     // Get all users with their settings
     const { data: users, error: usersError } = await supabase
       .from("users")
-      .select("id, email, name, timezone, notification_time, identity_statement")
-      .eq("onboarding_completed", true);
+      .select("id, email, name, timezone, notification_time, notifications_enabled, identity_statement")
+      .eq("onboarding_completed", true)
+      .eq("notifications_enabled", true);
 
     if (usersError) {
       console.error("Error fetching users:", usersError);
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
           from: "Dec <dec@mail.dec31.me>",
           to: user.email,
           subject: "[dec31] Your daily vote",
-          html: generateEmailHtml(user.name || "there", closerUrl, furtherUrl),
+          html: generateEmailHtml(user.name || "there", closerUrl, furtherUrl, baseUrl),
         });
 
         if (emailError) {
@@ -118,7 +119,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function generateEmailHtml(name: string, closerUrl: string, furtherUrl: string): string {
+function generateEmailHtml(name: string, closerUrl: string, furtherUrl: string, baseUrl: string): string {
+  const dashboardUrl = `${baseUrl}/dashboard`;
+  const settingsUrl = `${baseUrl}/settings`;
+  
   return `
 <!DOCTYPE html>
 <html>
@@ -193,6 +197,11 @@ function generateEmailHtml(name: string, closerUrl: string, furtherUrl: string):
       One click. That's it.<br>
       Every day you vote is a day you're paying attention.
     </p>
+    <div class="links" style="margin-top: 32px; font-size: 12px;">
+      <a href="${dashboardUrl}" style="color: #a1a1aa; text-decoration: underline;">View Dashboard</a>
+      <span style="color: #52525b; margin: 0 8px;">·</span>
+      <a href="${settingsUrl}" style="color: #a1a1aa; text-decoration: underline;">Notification Settings</a>
+    </div>
   </div>
 </body>
 </html>

@@ -7,7 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Copy, RefreshCw, Check } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 const TIMEZONES = [
   "Africa/Abidjan",
@@ -436,8 +437,12 @@ export default function SettingsPage() {
 
   const [timezone, setTimezone] = useState("America/New_York");
   const [notificationTime, setNotificationTime] = useState("21:00");
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [apiKey, setApiKey] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function loadSettings() {
@@ -452,7 +457,7 @@ export default function SettingsPage() {
 
       const { data: profile } = await supabase
         .from("users")
-        .select("timezone, notification_time")
+        .select("timezone, notification_time, notifications_enabled, api_key")
         .eq("id", user.id)
         .single();
 
@@ -461,6 +466,8 @@ export default function SettingsPage() {
         if (profile.notification_time) {
           setNotificationTime(profile.notification_time.substring(0, 5));
         }
+        setNotificationsEnabled(profile.notifications_enabled ?? true);
+        if (profile.api_key) setApiKey(profile.api_key);
       }
 
       setIsLoading(false);
@@ -482,11 +489,42 @@ export default function SettingsPage() {
         .update({
           timezone,
           notification_time: notificationTime + ":00",
+          notifications_enabled: notificationsEnabled,
         })
         .eq("id", user.id);
     }
 
     setIsSaving(false);
+  };
+
+  const handleCopyApiKey = async () => {
+    if (apiKey) {
+      await navigator.clipboard.writeText(apiKey);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleRegenerateApiKey = async () => {
+    setIsRegenerating(true);
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const newApiKey = crypto.randomUUID();
+      const { error } = await supabase
+        .from("users")
+        .update({ api_key: newApiKey })
+        .eq("id", user.id);
+
+      if (!error) {
+        setApiKey(newApiKey);
+      }
+    }
+
+    setIsRegenerating(false);
   };
 
   if (isLoading) {
@@ -523,6 +561,20 @@ export default function SettingsPage() {
           </p>
 
           <div className="space-y-4 pt-2">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="notifications-enabled" className="text-xs text-zinc-400">Daily reminders</Label>
+                <p className="text-[10px] text-zinc-600">
+                  Receive daily email reminders to vote.
+                </p>
+              </div>
+              <Switch
+                id="notifications-enabled"
+                checked={notificationsEnabled}
+                onCheckedChange={setNotificationsEnabled}
+              />
+            </div>
+
             <div className="space-y-1.5">
               <Label htmlFor="timezone" className="text-xs text-zinc-400">Timezone</Label>
               <select
@@ -558,6 +610,65 @@ export default function SettingsPage() {
         <Button onClick={handleSave} disabled={isSaving} className="h-9 px-4 text-sm">
           {isSaving ? "Saving..." : "Save"}
         </Button>
+
+        <section className="space-y-3 pt-6 border-t border-zinc-800">
+          <h2 className="text-sm font-semibold text-white uppercase tracking-wide">
+            API Access
+          </h2>
+          <p className="text-xs text-zinc-500">
+            Use this API key to programmatically download your dashboard image.
+          </p>
+
+          <div className="space-y-3 pt-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs text-zinc-400">API Key</Label>
+              <div className="flex gap-2">
+                <div className="flex-1 h-9 px-3 flex items-center border border-zinc-800 bg-zinc-900 text-sm text-white font-mono">
+                  {apiKey ? (
+                    <span className="truncate">{apiKey}</span>
+                  ) : (
+                    <span className="text-zinc-600">No API key generated</span>
+                  )}
+                </div>
+                {apiKey && (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleCopyApiKey}
+                    className="h-9 w-9 shrink-0 border-zinc-800"
+                    title="Copy to clipboard"
+                  >
+                    {copied ? (
+                      <Check className="h-3.5 w-3.5 text-green-400" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={handleRegenerateApiKey}
+              disabled={isRegenerating}
+              className="h-9 px-4 text-sm border-zinc-800"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 mr-2 ${isRegenerating ? "animate-spin" : ""}`} />
+              {apiKey ? "Regenerate API Key" : "Generate API Key"}
+            </Button>
+
+            {apiKey && (
+              <div className="p-3 bg-zinc-900/50 border border-zinc-800 space-y-2">
+                <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Usage</p>
+                <code className="block text-xs text-zinc-400 font-mono break-all">
+                  curl -H &quot;Authorization: Bearer {apiKey}&quot; \<br />
+                  &nbsp;&nbsp;{typeof window !== "undefined" ? window.location.origin : ""}/api/download
+                </code>
+              </div>
+            )}
+          </div>
+        </section>
       </main>
     </div>
   );

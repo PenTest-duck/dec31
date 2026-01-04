@@ -11,7 +11,7 @@ export function MonthsView({ days }: MonthsViewProps) {
   const monthEntries = Array.from(months.entries());
 
   return (
-    <div className="h-full w-full grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2 auto-rows-fr">
+    <div className="h-full w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-4 auto-rows-fr">
       {monthEntries.map(([monthKey, monthDays]) => {
         const closer = monthDays.filter((d) => d.vote === "closer").length;
         const further = monthDays.filter((d) => d.vote === "further").length;
