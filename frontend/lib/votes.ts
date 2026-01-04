@@ -15,8 +15,15 @@ export const VOTE_COLORS = {
 } as const;
 
 const currentYear = new Date().getFullYear();
-export const START_DATE = new Date(`${currentYear}-01-01`);
-export const END_DATE = new Date(`${currentYear}-12-31`);
+export const START_DATE = new Date(currentYear, 0, 1); // Jan 1, local time
+export const END_DATE = new Date(currentYear, 11, 31); // Dec 31, local time
+
+function toLocalDateString(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 export function getDaysInRange(
   startDate: Date,
@@ -31,7 +38,7 @@ export function getDaysInRange(
   current.setHours(0, 0, 0, 0);
 
   while (current <= endDate) {
-    const dateStr = current.toISOString().split("T")[0];
+    const dateStr = toLocalDateString(current);
     const currentTime = current.getTime();
     const todayTime = today.getTime();
 
@@ -100,7 +107,8 @@ export function getVoteCounts(days: DayData[]) {
 }
 
 export function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
