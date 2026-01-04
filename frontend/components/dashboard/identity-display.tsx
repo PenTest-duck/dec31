@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -19,6 +19,7 @@ interface IdentityDisplayProps {
 }
 
 export function IdentityDisplay({ identity, onUpdate }: IdentityDisplayProps) {
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
   const [isEditing, setIsEditing] = useState(false);
   const [editedIdentity, setEditedIdentity] = useState(identity);
   const [isConfirming, setIsConfirming] = useState(false);
@@ -48,7 +49,7 @@ export function IdentityDisplay({ identity, onUpdate }: IdentityDisplayProps) {
   return (
     <>
       <div className="group relative px-3 py-2 border border-zinc-800 bg-zinc-900/30 shrink-0">
-        <p className="text-xs text-zinc-500 mb-1">Dec 31, 2026:</p>
+        <p className="text-xs text-zinc-500 mb-1">Dec 31, {currentYear}:</p>
         <p className="text-sm text-zinc-200 line-clamp-2">{identity}</p>
         <button
           onClick={handleEdit}

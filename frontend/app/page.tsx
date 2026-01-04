@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+const currentYear = new Date().getFullYear();
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
@@ -31,11 +33,8 @@ export default function Home() {
         <div className="text-center space-y-12 max-w-xl">
           <div className="space-y-4">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-              Who are you becoming on Dec 31, 2026?
+              {`Who are you becoming on Dec 31, ${currentYear}?`}
             </h1>
-            <p className="text-zinc-500 text-sm">
-              The infrastructure for human behavior.
-            </p>
           </div>
 
           <div className="space-y-3">

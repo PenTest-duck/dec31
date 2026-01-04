@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ type Step = 0 | 1;
 export default function OnboardingPage() {
   const router = useRouter();
   const supabase = createClient();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   const [step, setStep] = useState<Step>(0);
   const [name, setName] = useState("");
@@ -146,7 +147,7 @@ export default function OnboardingPage() {
             <div className="space-y-1">
               <p className="text-[10px] text-zinc-600 uppercase tracking-wide">2 of 2</p>
               <h1 className="text-xl font-semibold tracking-tight text-white">
-                Describe who you are on Dec 31, 2026.
+                Describe who you are on Dec 31, {currentYear}.
               </h1>
               <p className="text-xs text-zinc-500">
                 Write in present tense. Be specific.

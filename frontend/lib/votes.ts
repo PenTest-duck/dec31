@@ -14,8 +14,9 @@ export const VOTE_COLORS = {
   future: "#9ca3af",
 } as const;
 
-export const START_DATE = new Date("2025-01-01");
-export const END_DATE = new Date("2026-12-31");
+const currentYear = new Date().getFullYear();
+export const START_DATE = new Date(`${currentYear}-01-01`);
+export const END_DATE = new Date(`${currentYear}-12-31`);
 
 export function getDaysInRange(
   startDate: Date,
