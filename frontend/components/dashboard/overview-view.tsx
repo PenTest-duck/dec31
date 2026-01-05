@@ -93,7 +93,7 @@ export function OverviewView({ days, onDayClick }: OverviewViewProps) {
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-auto">
+        <div className="flex-1 min-h-0">
           <DaysView days={days} onDayClick={onDayClick} />
         </div>
       </div>

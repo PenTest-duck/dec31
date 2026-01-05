@@ -11,8 +11,11 @@ export function MonthsView({ days }: MonthsViewProps) {
   const monthEntries = Array.from(months.entries());
 
   return (
-    <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 p-2">
-      {monthEntries.map(([monthKey, monthDays]) => {
+    <div className="w-full h-full flex items-center justify-center overflow-hidden p-2">
+      <div 
+        className="h-full max-h-full max-w-full grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-1 aspect-[1/2] sm:aspect-[4/3]"
+      >
+        {monthEntries.map(([monthKey, monthDays]) => {
         const closer = monthDays.filter((d) => d.vote === "closer").length;
         const further = monthDays.filter((d) => d.vote === "further").length;
         const pending = monthDays.filter(
@@ -24,12 +27,12 @@ export function MonthsView({ days }: MonthsViewProps) {
         const total = monthDays.length;
 
         return (
-          <div key={monthKey} className="flex flex-col items-center gap-2">
-            <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide">
+          <div key={monthKey} className="flex flex-col items-center gap-1 min-w-0 min-h-0">
+            <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide shrink-0">
               {getMonthName(monthKey)} {monthKey.split("-")[0].slice(2)}
             </span>
             <div
-              className="w-full aspect-square flex flex-col border border-zinc-800"
+              className="w-full flex-1 min-h-0 aspect-square flex flex-col border border-zinc-800"
             >
               {closer > 0 && (
                 <div
@@ -67,6 +70,7 @@ export function MonthsView({ days }: MonthsViewProps) {
           </div>
         );
       })}
+      </div>
     </div>
   );
 }
