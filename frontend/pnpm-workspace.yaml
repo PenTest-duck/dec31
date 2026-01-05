@@ -1,5 +1,0 @@
-ignoredBuiltDependencies:
-  - canvas
-  - sharp
-  - supabase
-  - unrs-resolver
