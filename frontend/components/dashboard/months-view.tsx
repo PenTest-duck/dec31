@@ -11,7 +11,7 @@ export function MonthsView({ days }: MonthsViewProps) {
   const monthEntries = Array.from(months.entries());
 
   return (
-    <div className="h-full w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-4 auto-rows-fr">
+    <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 p-2">
       {monthEntries.map(([monthKey, monthDays]) => {
         const closer = monthDays.filter((d) => d.vote === "closer").length;
         const further = monthDays.filter((d) => d.vote === "further").length;
@@ -24,7 +24,7 @@ export function MonthsView({ days }: MonthsViewProps) {
         const total = monthDays.length;
 
         return (
-          <div key={monthKey} className="flex flex-col items-center gap-1">
+          <div key={monthKey} className="flex flex-col items-center gap-2">
             <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide">
               {getMonthName(monthKey)} {monthKey.split("-")[0].slice(2)}
             </span>

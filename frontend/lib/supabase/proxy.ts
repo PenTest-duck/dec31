@@ -45,7 +45,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname !== "/error" &&
     !request.nextUrl.pathname.startsWith("/auth") &&
     !request.nextUrl.pathname.startsWith("/api/auth") &&
-    !request.nextUrl.pathname.startsWith("/api/webhooks")
+    !request.nextUrl.pathname.startsWith("/api/webhooks") &&
+    !request.nextUrl.pathname.startsWith("/api/download")
   ) {
     // no user, potentially respond by redirecting the user to the main page
     const url = request.nextUrl.clone();

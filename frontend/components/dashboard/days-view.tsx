@@ -41,9 +41,9 @@ export function DaysView({ days, onDayClick }: DaysViewProps) {
 
   return (
     <TooltipProvider delayDuration={100}>
-      <div className="h-full w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-4 auto-rows-fr">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 p-2">
         {monthGroups.map((group) => (
-          <div key={`${group.year}-${group.month}`} className="space-y-1">
+          <div key={`${group.year}-${group.month}`} className="space-y-2">
             <h3 className="text-[10px] font-medium text-zinc-500 uppercase tracking-wide">
               {getMonthName(`${group.year}-${group.month}`)} {group.year.slice(2)}
             </h3>
